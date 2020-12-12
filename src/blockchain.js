@@ -144,9 +144,7 @@ class Blockchain {
                 reject(e);
             }
 
-            let errors = [];
-            await self.validateChain().then(response => errors = response);
-
+            let errors = await self.validateChain();
             if (errors.length > 0) {
                 reject(errors);
             }

@@ -76,6 +76,13 @@ class Blockchain {
             // sha256 requires string of data
             block.hash = SHA256(JSON.stringify(block)).toString();
 
+            let isValidBlock;
+            await block.validate().then(response => isValidBlock = response);
+
+            if (!isValidBlock) {
+                reject('Block is not valid');
+            }
+
             // add block to the chain
             this.chain.push(block);
 
@@ -136,6 +143,14 @@ class Blockchain {
                 console.log('validating ', e);
                 reject(e);
             }
+
+            let errors = [];
+            await self.validateChain().then(response => errors = response);
+
+            if (errors.length > 0) {
+                reject(errors);
+            }
+
             // Create the block and add it to the chain
             let block = new BlockClass.Block({"owner": address, "star": star});
 

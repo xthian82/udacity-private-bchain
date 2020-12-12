@@ -25,7 +25,7 @@ class Blockchain {
     constructor() {
         this.chain = [];
         this.height = -1;
-        this.initializeChain();
+        this.initializeChain().then().catch(reason => console.log(`error loading: ${reason}`));
     }
 
     /**
@@ -153,7 +153,7 @@ class Blockchain {
     getBlockByHash(hash) {
         let self = this;
         return new Promise((resolve, reject) => {
-            let block = self.chain.filter(p => p.hash === hash)[0];
+            let block = self.chain.find(p => p.hash === hash);
             if (block) {
                 resolve(block);
             } else {
@@ -170,7 +170,7 @@ class Blockchain {
     getBlockByHeight(height) {
         let self = this;
         return new Promise((resolve, reject) => {
-            let block = self.chain.filter(p => p.height === height)[0];
+            let block = self.chain.find(p => p.height === height);
             if(block){
                 resolve(block);
             } else {
@@ -209,7 +209,7 @@ class Blockchain {
             for (let ind = 0; ind < self.chain.length; ind++) {
                 let currentBlock = self.chain[ind];
 
-                let isValid = await currentBlock.validateChain();
+                let isValid = await currentBlock.validate();
                 if (ind > 0) {
                     let previousBlock = self.chain[ind - 1];
                     isValid = isValid && currentBlock.previousBlockHash === previousBlock.hash;

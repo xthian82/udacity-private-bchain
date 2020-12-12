@@ -225,8 +225,11 @@ class Blockchain {
     }
 
     hasTimeElapsed(currentTime, timeParameter) {
-        const maxTime = 5 * 60 * 1000; // 5 minutes (in milliseconds)
-        return (currentTime - timeParameter) >= maxTime;
+        const maxTime = 5; // 5 minutes
+        let timeDiff = (currentTime - timeParameter);
+        timeDiff /= 60;
+
+        return Math.round(timeDiff) > maxTime;
     }
 }
 

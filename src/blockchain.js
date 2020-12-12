@@ -189,7 +189,9 @@ class Blockchain {
         let self = this;
         let stars = [];
         return new Promise((resolve, reject) => {
-            self.chain.map(obj => obj.getBData()).filter(bd => bd.owner === address).forEach(bdo => stars.push(bdo));
+            self.chain.map(obj => obj.getBData())
+                .filter(bd => bd.owner === address)
+                .forEach(bdo => stars.push(bdo));
             resolve(stars);
         });
     }
@@ -223,7 +225,7 @@ class Blockchain {
     }
 
     hasTimeElapsed(currentTime, timeParameter) {
-        const maxTime = 5 * 60 * 1_000; // 5 minutes (in milliseconds)
+        const maxTime = 5 * 60 * 1000; // 5 minutes (in milliseconds)
         return (currentTime - timeParameter) >= maxTime;
     }
 }
